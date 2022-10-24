@@ -1,6 +1,7 @@
 package com.baeldung.objectsize;
 
 import org.junit.Test;
+import org.omg.CORBA.ARG_IN;
 import org.openjdk.jol.info.ClassLayout;
 import org.openjdk.jol.info.GraphLayout;
 import org.openjdk.jol.vm.VM;
@@ -12,6 +13,22 @@ import java.util.Map;
 
 public class ObjectSizeUnitTest {
 
+    public static void main(String[] args) {
+        System.out.println(GraphLayout.parseInstance("POR").toPrintable());
+
+        List<Object> list = new ArrayList<>();
+        System.out.println(GraphLayout.parseInstance(list).toPrintable());
+        list.add(new Object());
+        System.out.println(GraphLayout.parseInstance(list).toPrintable());
+        System.out.println(GraphLayout.parseInstance(new Object()).toPrintable());
+
+
+        long stringSize = 24 * (3 * 100*100*100) + 103 * 24 ;
+        long arrayListSize = 3*100*100*100 * 40;
+        System.out.println(stringSize + "B");
+        System.out.println(arrayListSize + "B");
+
+    }
     @Test
     public void nestedMap(){
         Map nestedMap = new HashMap();
@@ -36,6 +53,7 @@ public class ObjectSizeUnitTest {
         System.out.println("per port string size: " + perStringSize);
         System.out.println("all over calculate string size: " + overCal);
         System.out.println("actually nested map size: " + (total - overCal) + "B");
+
     }
 
     private void add(Map nestedMap, List<String> typeKey, List<String> portKey, Object o, int idx) {
